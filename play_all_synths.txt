@@ -1,0 +1,9 @@
+# @author: frdnd
+# plays all synths
+
+for synth in synth_names
+  print synth
+  use_synth synth
+  play 50
+  sleep 1
+end

@@ -1,0 +1,52 @@
+# @author: frdnd
+# blixa beisst ins gras
+
+use_bpm 110
+
+kick_cutoffs = range(50, 80, 0.5).mirror
+kick_amp = range(0.5, 1, 0.01).mirror
+live_loop :kick do
+  tick
+  if (spread 5, 8).look then
+    sample :drum_heavy_kick, amp: kick_amp.look, cutoff: kick_cutoffs.look
+  end
+  sleep(0.25)
+end
+
+live_loop :kick2 do
+  if (spread 1, 4).tick then
+    sample :bd_tek, cutoff: kick_cutoffs.look
+  end
+  sleep(0.25)
+end
+
+bass_note = :b1
+bassline_notes = (stretch [bass_note]*3 + chord(bass_note, :m, num_octaves: 1) + [bass_note]*6 , 8)
+
+live_loop :bassline do
+  sync :kick
+  tick
+  with_synth :fm do
+    play bassline_notes.look, attack: 0.03, divisor: 1, depth: 2.5
+  end
+  sleep 0.25
+end
+
+live_loop :accent do
+  sync :kick
+  sleep(8.25)
+  with_fx :reverb do
+    sample :elec_bell
+  end
+  sleep(8.25)
+  with_fx :reverb do
+    sample :elec_bell
+  end
+  sleep(16.25)
+  with_fx :reverb do
+    sample :elec_snare
+  end
+  sleep sample_duration :elec_snare
+  sleep 2
+  sample "/home/ferdinand/Projects/Sonic-Pi/samples/coding_night2.wav"
+end

@@ -1,0 +1,11 @@
+# @author: frdnd
+# plays all fxs
+
+use_synth :fm
+for fx in fx_names
+  print fx
+  with_fx fx do
+    play 50
+    sleep 2
+  end
+end

@@ -1,0 +1,32 @@
+# @author: frdnd
+# implements probability templates of
+# http://www.dmu.ac.uk/documents/technology-documents/research/mtirc/nowalls/mww-collins.pdf
+
+use_bpm 140
+
+define :play_samp_prob do |sampl, prob|
+  if (prob < 0) or (prob > 1)
+    stop
+  end
+
+  if rrand(0, 1)  <= prob
+    sample sampl
+  end
+  sleep 0.25
+end
+
+prob_kick  = [0.7, 0.0, 0.4, 0.1,  0.0, 0.0, 0.0, 0.2,  0.0, 0.0, 0.5, 0.0,  0.0, 0.0, 0.0, 0.3].ring
+prob_snare = [0.0, 0.0, 0.0, 0.0,  1.0, 0.0, 0.0, 0.5,  0.0, 0.2, 0.0, 0.0,  1.0, 0.0, 0.0, 0.3].ring
+prob_hihat = [0.0, 0.0, 1.0, 0.0,  0.0, 0.0, 1.0, 0.7,  0.0, 0.0, 1.0, 0.0,  0.0, 0.0, 1.0, 0.7].ring
+
+live_loop :kick do
+  play_samp_prob :drum_heavy_kick, prob_kick.tick
+end
+
+live_loop :snare do
+  play_samp_prob :drum_snare_hard, prob_snare.tick
+end
+
+live_loop :hihat do
+  play_samp_prob :drum_cymbal_closed, prob_hihat.tick
+end

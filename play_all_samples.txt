@@ -1,0 +1,18 @@
+# @author: frdnd
+# plays all samples of all sample groups
+# uncomment for loop in order to select a specific group
+
+define :play_sample_group do |group|
+  for smpl in (sample_names group)
+    print smpl
+    sample smpl
+    sleep sample_duration smpl
+    sleep 1
+  end
+end
+
+#play_sample_group :drum
+for group in sample_groups
+  print group
+  play_sample_group group
+end
